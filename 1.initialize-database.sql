@@ -16,6 +16,7 @@ create table events (
   entity_id VARCHAR(1000) NOT NULL,
   triggering_event VARCHAR(1000),
   metadata VARCHAR(1000),
+  extra_data TEXT,
   published TINYINT DEFAULT 0
 );
 
