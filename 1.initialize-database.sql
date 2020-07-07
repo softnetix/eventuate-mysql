@@ -4,8 +4,8 @@ GRANT ALL PRIVILEGES ON eventuate.* TO 'mysqluser'@'%' WITH GRANT OPTION;
 USE eventuate;
 
 DROP table IF EXISTS events;
-DROP table IF EXISTS  entities;
-DROP table IF EXISTS  snapshots;
+DROP table IF EXISTS entities;
+DROP table IF EXISTS snapshots;
 DROP table IF EXISTS cdc_monitoring;
 
 create table events (
@@ -17,11 +17,13 @@ create table events (
   triggering_event VARCHAR(1000),
   metadata VARCHAR(1000),
   extra_data TEXT,
-  published TINYINT DEFAULT 0
+  committed_at TIMESTAMP NULL DEFAULT NULL,
+  publisher_id VARCHAR(1000) NOT NULL,
+  published_at TIMESTAMP NULL DEFAULT NULL
 );
 
 CREATE INDEX events_idx ON events(entity_type, entity_id, event_id);
-CREATE INDEX events_published_idx ON events(published, event_id);
+CREATE INDEX events_publisher_id_idx ON events(publisher_id, event_id);
 
 create table entities (
   entity_type VARCHAR(1000),
